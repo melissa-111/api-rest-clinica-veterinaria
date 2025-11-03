@@ -1,0 +1,26 @@
+// archivo: server.js
+import express from "express";
+
+const app = express();
+app.use(express.json()); // para recibir JSON
+
+// Ejemplo de endpoint GET
+app.get("/api/pets", (req, res) => {
+  res.json([
+    { id: 1, nombre: "Luna", especie: "Perro" },
+    { id: 2, nombre: "Michi", especie: "Gato" }
+  ]);
+});
+
+// Ejemplo POST
+app.post("/api/pets", (req, res) => {
+  const pet = req.body;
+  if (!pet.nombre || !pet.especie) {
+    return res.status(400).json({ error: "Faltan datos obligatorios" });
+  }
+  res.status(201).json({ mensaje: "Mascota registrada", pet });
+});
+
+app.listen(3000, () => {
+  console.log("Servidor escuchando en http://localhost:3000");
+});
